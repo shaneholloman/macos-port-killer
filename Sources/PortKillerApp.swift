@@ -13,7 +13,7 @@ struct PortKillerApp: App {
         MenuBarExtra {
             MenuBarView(manager: manager)
         } label: {
-            Image(systemName: manager.ports.isEmpty ? "network.slash" : "network")
+            Text("⚡")
         }
         .menuBarExtraStyle(.window)
     }

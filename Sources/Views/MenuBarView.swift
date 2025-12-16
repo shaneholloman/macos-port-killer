@@ -41,18 +41,16 @@ struct MenuBarView: View {
 
             Spacer()
 
-            if manager.isScanning {
-                ProgressView()
-                    .scaleEffect(0.7)
-            } else {
-                Button {
-                    Task { await manager.refresh() }
-                } label: {
-                    Image(systemName: "arrow.clockwise")
-                }
-                .buttonStyle(.plain)
-                .help("Refresh")
+            Button {
+                Task { await manager.refresh() }
+            } label: {
+                Image(systemName: "arrow.clockwise")
+                    .rotationEffect(.degrees(manager.isScanning ? 360 : 0))
+                    .animation(manager.isScanning ? .linear(duration: 1).repeatForever(autoreverses: false) : .default, value: manager.isScanning)
             }
+            .buttonStyle(.plain)
+            .disabled(manager.isScanning)
+            .help("Refresh")
 
             Text("\(manager.ports.count)")
                 .font(.caption)
@@ -143,15 +141,6 @@ struct MenuBarView: View {
                 action: { Task { await manager.killAll() } }
             )
             .disabled(manager.ports.isEmpty)
-
-            Spacer()
-
-            Button {
-                // Settings will be added later
-            } label: {
-                Image(systemName: "gear")
-            }
-            .buttonStyle(.plain)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
@@ -177,25 +166,32 @@ struct PortRow: View {
     let isHovered: Bool
     let onKill: () -> Void
 
+    @State private var isKilling = false
+    @State private var showConfirm = false
+
     var body: some View {
         HStack(spacing: 10) {
             // Status indicator
             Circle()
-                .fill(.green)
+                .fill(isKilling ? .orange : .green)
                 .frame(width: 8, height: 8)
-                .shadow(color: .green.opacity(0.5), radius: 3)
+                .shadow(color: (isKilling ? Color.orange : Color.green).opacity(0.5), radius: 3)
+                .opacity(isKilling ? 0.3 : 1)
+                .animation(.easeInOut(duration: 0.4).repeatForever(autoreverses: true), value: isKilling)
 
             // Port number
             Text(port.displayPort)
                 .font(.system(.body, design: .monospaced))
                 .fontWeight(.medium)
                 .frame(width: 60, alignment: .leading)
+                .opacity(isKilling ? 0.5 : 1)
 
             // Process name
             Text(port.processName)
                 .font(.callout)
                 .lineLimit(1)
                 .truncationMode(.tail)
+                .opacity(isKilling ? 0.5 : 1)
 
             Spacer()
 
@@ -203,16 +199,42 @@ struct PortRow: View {
             Text("PID \(port.pid)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .opacity(isKilling ? 0.5 : 1)
 
             // Kill button (visible on hover)
-            Button {
-                onKill()
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundStyle(.red)
+            if showConfirm {
+                HStack(spacing: 4) {
+                    Button {
+                        showConfirm = false
+                        isKilling = true
+                        onKill()
+                    } label: {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(.green)
+                    }
+                    .buttonStyle(.plain)
+
+                    Button {
+                        showConfirm = false
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                }
+            } else if isKilling {
+                Image(systemName: "hourglass")
+                    .foregroundStyle(.orange)
+            } else {
+                Button {
+                    showConfirm = true
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.red)
+                }
+                .buttonStyle(.plain)
+                .opacity(isHovered ? 1 : 0)
             }
-            .buttonStyle(.plain)
-            .opacity(isHovered ? 1 : 0)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
