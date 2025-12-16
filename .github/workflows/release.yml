@@ -139,7 +139,8 @@ jobs:
 
           # Create temporary directory for DMG contents
           mkdir -p dmg_contents
-          cp -r .build/release/PortKiller.app dmg_contents/
+          # Use ditto to preserve symlinks and extended attributes
+          ditto .build/release/PortKiller.app dmg_contents/PortKiller.app
 
           # Create Applications symlink
           ln -s /Applications dmg_contents/Applications
