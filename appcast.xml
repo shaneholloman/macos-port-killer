@@ -6,16 +6,16 @@
     <description>Most recent updates to PortKiller</description>
     <language>en</language>
     <item>
-      <title>Version 2.5.0</title>
-      <pubDate>Wed, 17 Dec 2025 15:53:22 +0000</pubDate>
-      <sparkle:version>110</sparkle:version>
-      <sparkle:shortVersionString>2.5.0</sparkle:shortVersionString>
+      <title>Version 2.5.2</title>
+      <pubDate>Wed, 17 Dec 2025 16:08:42 +0000</pubDate>
+      <sparkle:version>116</sparkle:version>
+      <sparkle:shortVersionString>2.5.2</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/productdevbook/port-killer/releases/download/v2.5.0/PortKiller-v2.5.0-arm64.dmg"
-        length="2515999"
+        url="https://github.com/productdevbook/port-killer/releases/download/v2.5.2/PortKiller-v2.5.2-arm64.dmg"
+        length="2515932"
         type="application/octet-stream"
-        sparkle:edSignature="DHMz5+/UrSfX+5oplwURb8sL2x8rU4SAzotyb59j9QzTsNn+NCZJNExVALXCDocplJTmj5HZeY0JzpSh0WClAQ==" />
+        sparkle:edSignature="nrv8j9HGRH3Ysc8oay5D+IztrB8WjTbpigboY5K7PttWJM/Szacf/aS7EFlQhc6SDM6kEs3I5RT8TeSyxVr3AQ==" />
     </item>
   </channel>
 </rss>
