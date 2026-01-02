@@ -82,8 +82,8 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
-      - name: Build app
-        run: swift build --configuration release --product PortKiller
+      - name: Build app bundle
+        run: ./scripts/build-app.sh
 
       - name: Sign app
         env:
