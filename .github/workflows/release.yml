@@ -157,7 +157,7 @@ jobs:
         run: |
           APP_NAME="PortKiller"
           VERSION="${GITHUB_REF_NAME}"
-          DMG_NAME="${APP_NAME}-${VERSION}.dmg"
+          DMG_NAME="${APP_NAME}-${VERSION}-macos.dmg"
 
           # Create temporary directory for DMG contents
           mkdir -p dmg_contents
@@ -299,7 +299,7 @@ jobs:
             version "${VERSION}"
             sha256 "${SHA256}"
             
-            url "https://github.com/productdevbook/port-killer/releases/download/v#{version}/PortKiller-v#{version}.dmg"
+            url "https://github.com/productdevbook/port-killer/releases/download/v#{version}/PortKiller-v#{version}-macos.dmg"
 
             name "PortKiller"
             desc "Menu bar app to find and kill processes running on open ports"
